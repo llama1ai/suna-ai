@@ -1,73 +1,32 @@
-version: '3.8'
-
-networks:
-  dokploy-network:
-    external: true
-
 services:
   redis:
     image: redis:7-alpine
-    container_name: suna-redis
-    restart: unless-stopped
     volumes:
-      - ../files/redis:/data
+      - redis-data:/data
     command: redis-server --appendonly yes
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
-    container_name: suna-rabbitmq
-    restart: unless-stopped
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: password123
-    volumes:
-      - ../files/rabbitmq:/var/lib/rabbitmq
 
   backend:
-    build: 
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: suna-backend
-    restart: unless-stopped
-    networks:
-      - dokploy-network
+    build: ./backend
     depends_on:
       - redis
       - rabbitmq
     env_file:
       - .env
-    volumes:
-      - ../files/uploads:/app/uploads
-    ports:
-      - "8000:8000"
-
-  worker:
-    build: 
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: suna-worker
-    restart: unless-stopped
-    depends_on:
-      - backend
-      - redis
-      - rabbitmq
-    env_file:
-      - .env
-    command: python -m dramatiq run_agent_background
-    volumes:
-      - ../files/uploads:/app/uploads
 
   frontend:
-    build: 
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: suna-frontend
-    restart: unless-stopped
-    networks:
-      - dokploy-network
+    build: ./frontend
     depends_on:
       - backend
     env_file:
       - .env
     ports:
       - "3000:3000"
+
+volumes:
+  redis-data:
