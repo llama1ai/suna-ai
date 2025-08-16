@@ -78,10 +78,7 @@ type AgentCardData = MarketplaceData | TemplateData | AgentData;
 interface AgentCardProps {
   mode: AgentCardMode;
   data: AgentCardData;
-  styling?: {
-    avatar: string;
-    color: string;
-  };
+
   isActioning?: boolean;
   onPrimaryAction?: (data: any, e?: React.MouseEvent) => void;
   onSecondaryAction?: (data: any, e?: React.MouseEvent) => void;

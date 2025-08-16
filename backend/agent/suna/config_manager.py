@@ -48,8 +48,7 @@ class SunaConfigManager:
             "description": SunaConfig.DESCRIPTION,
             "system_prompt": SunaConfig.get_system_prompt(),
             "default_tools": SunaConfig.DEFAULT_TOOLS,
-            "avatar": SunaConfig.AVATAR,
-            "avatar_color": SunaConfig.AVATAR_COLOR,
+
             "restrictions": SunaConfig.USER_RESTRICTIONS,
         }
         

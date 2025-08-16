@@ -16,7 +16,7 @@ interface MyTemplatesTabProps {
   onUnpublish: (templateId: string, templateName: string) => void;
   onViewInMarketplace: () => void;
   onSwitchToMyAgents: () => void;
-  getTemplateStyling: (template: any) => { avatar: string; color: string };
+
 }
 
 export const MyTemplatesTab = ({
@@ -27,8 +27,7 @@ export const MyTemplatesTab = ({
   onPublish,
   onUnpublish,
   onViewInMarketplace,
-  onSwitchToMyAgents,
-  getTemplateStyling
+  onSwitchToMyAgents
 }: MyTemplatesTabProps) => {
   return (
     <div className="space-y-6 mt-8">
@@ -77,7 +76,6 @@ export const MyTemplatesTab = ({
                 key={template.template_id}
                 mode="template"
                 data={template}
-                styling={getTemplateStyling(template)}
                 isActioning={isActioning}
                 onPrimaryAction={
                   template.is_public 

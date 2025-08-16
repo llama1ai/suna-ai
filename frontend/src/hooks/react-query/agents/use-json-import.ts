@@ -27,8 +27,7 @@ interface JsonAnalysisResult {
   agent_info: {
     name: string;
     description?: string;
-    avatar?: string;
-    avatar_color?: string;
+    profile_image_url?: string;
   };
 }
 

@@ -22,7 +22,7 @@ interface MarketplaceTabProps {
   installingItemId: string | null;
   onInstallClick: (item: MarketplaceTemplate, e?: React.MouseEvent) => void;
   onDeleteTemplate?: (item: MarketplaceTemplate, e?: React.MouseEvent) => void;
-  getItemStyling: (item: MarketplaceTemplate) => { avatar: string; color: string };
+
   currentUserId?: string;
   onAgentPreview?: (agent: MarketplaceTemplate) => void;
 }
@@ -40,7 +40,6 @@ export const MarketplaceTab = ({
   installingItemId,
   onInstallClick,
   onDeleteTemplate,
-  getItemStyling,
   currentUserId,
   onAgentPreview
 }: MarketplaceTabProps) => {
@@ -114,7 +113,6 @@ export const MarketplaceTab = ({
                           key={item.id}
                           mode="marketplace"
                           data={item}
-                          styling={getItemStyling(item)}
                           isActioning={installingItemId === item.id}
                           onPrimaryAction={onInstallClick}
                           onDeleteAction={onDeleteTemplate}
@@ -138,7 +136,6 @@ export const MarketplaceTab = ({
                           key={item.id}
                           mode="marketplace"
                           data={item}
-                          styling={getItemStyling(item)}
                           isActioning={installingItemId === item.id}
                           onPrimaryAction={onInstallClick}
                           onDeleteAction={onDeleteTemplate}
@@ -157,7 +154,6 @@ export const MarketplaceTab = ({
                     key={item.id}
                     mode="marketplace"
                     data={item}
-                    styling={getItemStyling(item)}
                     isActioning={installingItemId === item.id}
                     onPrimaryAction={onInstallClick}
                     onDeleteAction={onDeleteTemplate}

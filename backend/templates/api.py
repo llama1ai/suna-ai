@@ -60,8 +60,6 @@ class TemplateResponse(BaseModel):
     download_count: int
     created_at: str
     updated_at: str
-    avatar: Optional[str]
-    avatar_color: Optional[str]
     profile_image_url: Optional[str] = None
     metadata: Dict[str, Any]
     creator_name: Optional[str] = None

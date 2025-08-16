@@ -40,9 +40,7 @@ def build_unified_config(
     system_prompt: str,
     agentpress_tools: ConfigType,
     configured_mcps: List[ConfigType],
-    custom_mcps: List[ConfigType],
-    avatar: Optional[str] = None,
-    avatar_color: Optional[str] = None
+    custom_mcps: List[ConfigType]
 ) -> ConfigType:
     try:
         from agent.config_helper import build_unified_config as build_config
@@ -50,9 +48,7 @@ def build_unified_config(
             system_prompt=system_prompt,
             agentpress_tools=agentpress_tools,
             configured_mcps=configured_mcps,
-            custom_mcps=custom_mcps,
-            avatar=avatar,
-            avatar_color=avatar_color
+            custom_mcps=custom_mcps
         )
     except ImportError:
         return {
@@ -62,10 +58,7 @@ def build_unified_config(
                 'mcp': configured_mcps,
                 'custom_mcp': custom_mcps
             },
-            'metadata': {
-                'avatar': avatar,
-                'avatar_color': avatar_color
-            }
+            'metadata': {}
         }
 
 

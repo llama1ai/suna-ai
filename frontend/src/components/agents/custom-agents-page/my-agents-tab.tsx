@@ -34,7 +34,7 @@ interface MyAgentsTabProps {
   templatesActioningId: string | null;
   onPublish: (template: any) => void;
   onUnpublish: (templateId: string, templateName: string) => void;
-  getTemplateStyling: (template: any) => { avatar: string; color: string };
+
 
   onPublishAgent?: (agent: any) => void;
   publishingAgentId?: string | null;
@@ -66,7 +66,6 @@ export const MyAgentsTab = ({
   templatesActioningId,
   onPublish,
   onUnpublish,
-  getTemplateStyling,
   onPublishAgent,
   publishingAgentId
 }: MyAgentsTabProps) => {
@@ -133,7 +132,6 @@ export const MyAgentsTab = ({
               key={template.template_id}
               mode="template"
               data={template}
-              styling={getTemplateStyling(template)}
               isActioning={isActioning}
               onPrimaryAction={
                 template.is_public 

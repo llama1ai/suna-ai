@@ -5,8 +5,7 @@ from agent.prompt import SYSTEM_PROMPT
 class SunaConfig:
     NAME = "Suna"
     DESCRIPTION = "Suna is your AI assistant with access to various tools and integrations to help you with tasks across domains."
-    AVATAR = "🌞"
-    AVATAR_COLOR = "#F59E0B"
+
     DEFAULT_MODEL = "anthropic/claude-sonnet-4-20250514"
     SYSTEM_PROMPT = SYSTEM_PROMPT
 
@@ -53,8 +52,6 @@ class SunaConfig:
             "custom_mcps": cls.DEFAULT_CUSTOM_MCPS,
             "agentpress_tools": cls.DEFAULT_TOOLS,
             "is_default": True,
-            "avatar": cls.AVATAR,
-            "avatar_color": cls.AVATAR_COLOR,
             "metadata": {
                 "is_suna_default": True,
                 "centrally_managed": True,

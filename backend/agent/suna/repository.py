@@ -184,8 +184,7 @@ class SunaAgentRepository:
                 "name": SunaConfig.NAME,
                 "description": SunaConfig.DESCRIPTION,
                 "is_default": True,
-                "avatar": SunaConfig.AVATAR,
-                "avatar_color": SunaConfig.AVATAR_COLOR,
+
                 "metadata": {
                     "is_suna_default": True,
                     "centrally_managed": True,

@@ -51,8 +51,6 @@ def extract_agent_config(agent_data: Dict[str, Any], version_data: Optional[Dict
             'custom_mcps': custom_mcps,
             'agentpress_tools': _extract_agentpress_tools_for_run(agentpress_tools),
             'workflows': workflows,
-            'avatar': agent_data.get('avatar'),
-            'avatar_color': agent_data.get('avatar_color'),
             'profile_image_url': agent_data.get('profile_image_url'),
             'is_suna_default': is_suna_default,
             'centrally_managed': centrally_managed,
@@ -89,9 +87,7 @@ def extract_agent_config(agent_data: Dict[str, Any], version_data: Optional[Dict
         config['agentpress_tools'] = _extract_agentpress_tools_for_run(tools.get('agentpress', {}))
         config['workflows'] = config.get('workflows', [])
         
-        # Legacy and new fields
-        config['avatar'] = agent_data.get('avatar')
-        config['avatar_color'] = agent_data.get('avatar_color')
+        # Profile image url field
         config['profile_image_url'] = agent_data.get('profile_image_url')
         
         return config
@@ -114,8 +110,6 @@ def extract_agent_config(agent_data: Dict[str, Any], version_data: Optional[Dict
         'custom_mcps': [],
         'agentpress_tools': {},
         'workflows': [],
-        'avatar': agent_data.get('avatar'),
-        'avatar_color': agent_data.get('avatar_color'),
         'profile_image_url': agent_data.get('profile_image_url'),
         'is_suna_default': is_suna_default,
         'centrally_managed': centrally_managed,
@@ -130,8 +124,6 @@ def build_unified_config(
     agentpress_tools: Dict[str, Any],
     configured_mcps: List[Dict[str, Any]],
     custom_mcps: Optional[List[Dict[str, Any]]] = None,
-    avatar: Optional[str] = None,
-    avatar_color: Optional[str] = None,
     suna_metadata: Optional[Dict[str, Any]] = None,
     workflows: Optional[List[Dict[str, Any]]] = None
 ) -> Dict[str, Any]:
@@ -150,10 +142,7 @@ def build_unified_config(
             'custom_mcp': custom_mcps or []
         },
         'workflows': workflows or [],
-        'metadata': {
-            'avatar': avatar,
-            'avatar_color': avatar_color
-        }
+        'metadata': {}
     }
     
     if suna_metadata:

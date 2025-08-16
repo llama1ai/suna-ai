@@ -419,12 +419,7 @@ export default function AgentsPage() {
     }
   };
 
-  const getItemStyling = (item: MarketplaceTemplate) => {
-    return {
-      avatar: '🤖',
-      color: '#6366f1',
-    };
-  };
+
 
   const handleUnpublish = async (templateId: string, templateName: string) => {
     try {
@@ -503,12 +498,7 @@ export default function AgentsPage() {
     }
   };
 
-  const getTemplateStyling = (template: any) => {
-    return {
-      avatar: '🤖',
-      color: '#6366f1',
-    };
-  };
+
 
   if (flagLoading) {
     return (
@@ -573,7 +563,6 @@ export default function AgentsPage() {
               templatesActioningId={templatesActioningId}
               onPublish={openPublishDialog}
               onUnpublish={handleUnpublish}
-              getTemplateStyling={getTemplateStyling}
               onPublishAgent={handleAgentPublish}
               publishingAgentId={publishingAgentId}
             />
@@ -593,7 +582,6 @@ export default function AgentsPage() {
               installingItemId={installingItemId}
               onInstallClick={handleInstallClick}
               onDeleteTemplate={handleDeleteTemplate}
-              getItemStyling={getItemStyling}
               currentUserId={user?.id}
               onAgentPreview={handleAgentPreview}
             />

@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 interface Agent {
   agent_id: string;
   name: string;
-  avatar?: string;
+  profile_image_url?: string;
   metadata?: {
     is_suna_default?: boolean;
   };
