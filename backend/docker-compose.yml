@@ -12,8 +12,7 @@ services:
       - ../files/logs:/app/logs
     restart: unless-stopped
     depends_on:
-      redis:
-        condition: service_healthy
+      - redis
     networks:
       - app-network
       - dokploy-network
@@ -27,12 +26,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
 
   worker:
     build:
@@ -46,8 +39,7 @@ services:
       - ../files/worker-logs:/app/logs
     restart: unless-stopped
     depends_on:
-      redis:
-        condition: service_healthy
+      - redis
     networks:
       - app-network
     environment:
@@ -88,12 +80,6 @@ services:
     networks:
       - app-network
     command: redis-server --appendonly yes --bind 0.0.0.0 --protected-mode no --maxmemory 2gb --maxmemory-policy allkeys-lru
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
     logging:
       driver: "json-file"
       options:
@@ -105,6 +91,3 @@ networks:
     external: true
   app-network:
     driver: bridge
-
-volumes:
-  redis_data:
