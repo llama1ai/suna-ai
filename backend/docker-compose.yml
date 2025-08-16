@@ -1,32 +1,110 @@
 services:
-  redis:
-    image: redis:7-alpine
-    volumes:
-      - redis-data:/data
-    command: redis-server --appendonly yes
-
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: password123
-
-  backend:
-    build: ./backend
-    depends_on:
-      - redis
-      - rabbitmq
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
     env_file:
       - .env
+    volumes:
+      - ../files/app:/app/data
+      - ../files/logs:/app/logs
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - app-network
+      - dokploy-network
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+      - LOG_LEVEL=INFO
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: uv run dramatiq --skip-logging --processes 4 --threads 4 run_agent_background
+    env_file:
+      - .env
+    volumes:
+      - ../files/app:/app/data
+      - ../files/worker-logs:/app/logs
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - app-network
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+      - LOG_LEVEL=INFO
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   frontend:
-    build: ./frontend
-    depends_on:
-      - backend
-    env_file:
-      - .env
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    env_file:
+      - .env
+    restart: unless-stopped
+    depends_on:
+      - api
+    networks:
+      - dokploy-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  redis:
+    image: redis:8-alpine
+    volumes:
+      - ../files/redis-data:/data
+    restart: unless-stopped
+    networks:
+      - app-network
+    command: redis-server --appendonly yes --bind 0.0.0.0 --protected-mode no --maxmemory 2gb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  dokploy-network:
+    external: true
+  app-network:
+    driver: bridge
 
 volumes:
-  redis-data:
+  redis_data:
